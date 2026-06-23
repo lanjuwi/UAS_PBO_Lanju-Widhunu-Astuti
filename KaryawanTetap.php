@@ -11,6 +11,7 @@ class KaryawanTetap extends Karyawan
 
 
 
+
     public function __construct(
         $id_karyawan,
         $nama_karyawan,
@@ -38,18 +39,24 @@ class KaryawanTetap extends Karyawan
 
 
 
+
     public function hitungGajiBersih()
     {
 
         return 
+
         (
             (int)$this->hari_kerja_masuk *
             (int)$this->gaji_dasar_per_hari
         )
+
         +
+
         (int)$this->tunjangan_kesehatan;
 
     }
+
+
 
 
 
@@ -58,6 +65,25 @@ class KaryawanTetap extends Karyawan
     {
         return (int)$this->gaji_dasar_per_hari;
     }
+
+
+
+
+
+
+    public function getTunjanganKesehatan()
+    {
+        return $this->tunjangan_kesehatan;
+    }
+
+
+
+    public function getOpsiSaham()
+    {
+        return $this->opsi_saham_id;
+    }
+
+
 
 }
 

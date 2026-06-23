@@ -6,9 +6,9 @@ require_once "Karyawan.php";
 class KaryawanMagang extends Karyawan
 {
 
+
     protected $uang_saku_bulanan;
     protected $sertifikat_kampus_merdeka;
-
 
 
 
@@ -41,16 +41,21 @@ class KaryawanMagang extends Karyawan
 
 
 
+
     public function hitungGajiBersih()
     {
 
         return 
+
         (
             (int)$this->hari_kerja_masuk *
             (int)$this->gaji_dasar_per_hari
-        ) * 0.80;
+        )
+
+        * 0.8;
 
     }
+
 
 
 
@@ -60,6 +65,25 @@ class KaryawanMagang extends Karyawan
     {
         return (int)$this->gaji_dasar_per_hari;
     }
+
+
+
+
+
+    public function getUangSaku()
+    {
+        return $this->uang_saku_bulanan;
+    }
+
+
+
+
+
+    public function getSertifikat()
+    {
+        return $this->sertifikat_kampus_merdeka;
+    }
+
 
 
 }

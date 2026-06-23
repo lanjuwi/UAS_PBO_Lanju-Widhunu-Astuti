@@ -2,11 +2,13 @@
 
 require_once "Karyawan.php";
 
+
 class KaryawanKontrak extends Karyawan
 {
 
     protected $durasi_kontrak_bulan;
     protected $agensi_penyalur;
+
 
 
     public function __construct(
@@ -35,7 +37,6 @@ class KaryawanKontrak extends Karyawan
 
 
 
-    // overriding
     public function hitungGajiBersih()
     {
 
@@ -47,10 +48,28 @@ class KaryawanKontrak extends Karyawan
 
 
 
+
     public function gajiDasarPerHari()
     {
         return (int)$this->gaji_dasar_per_hari;
     }
+
+
+
+
+    public function getDurasiKontrak()
+    {
+        return $this->durasi_kontrak_bulan;
+    }
+
+
+
+    public function getAgensiPenyalur()
+    {
+        return $this->agensi_penyalur;
+    }
+
+
 
 }
 

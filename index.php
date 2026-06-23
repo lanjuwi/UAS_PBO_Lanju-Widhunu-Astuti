@@ -6,7 +6,11 @@ require_once "KaryawanTetap.php";
 require_once "KaryawanMagang.php";
 
 
-// koneksi database
+
+// ========================
+// KONEKSI DATABASE
+// ========================
+
 $conn = mysqli_connect(
     "localhost",
     "root",
@@ -21,7 +25,11 @@ if(!$conn){
 
 
 
-// ambil data karyawan
+
+// ========================
+// AMBIL DATA
+// ========================
+
 $query = mysqli_query(
     $conn,
     "SELECT * FROM tabel_karyawan"
@@ -35,16 +43,26 @@ $magang = [];
 
 
 
-// membuat object berdasarkan jenis karyawan
+
+
+// ========================
+// BUAT OBJECT
+// ========================
+
 
 while($data = mysqli_fetch_assoc($query)){
 
 
+    $jenis = strtolower(
+        trim($data['jenis_karyawan'])
+    );
 
-    if($data['jenis_karyawan']=="Kontrak"){
 
 
-        $obj = new KaryawanKontrak(
+    if($jenis == "kontrak"){
+
+
+        $kontrak[] = new KaryawanKontrak(
 
             $data['id_karyawan'],
             $data['nama_karyawan'],
@@ -57,18 +75,15 @@ while($data = mysqli_fetch_assoc($query)){
         );
 
 
-        $kontrak[] = $obj;
-
-
-
     }
 
 
 
-    elseif($data['jenis_karyawan']=="Tetap"){
+    elseif($jenis == "tetap"){
 
 
-        $obj = new KaryawanTetap(
+
+        $tetap[] = new KaryawanTetap(
 
             $data['id_karyawan'],
             $data['nama_karyawan'],
@@ -81,19 +96,16 @@ while($data = mysqli_fetch_assoc($query)){
         );
 
 
-        $tetap[] = $obj;
-
-
-
-
     }
 
 
 
-    elseif($data['jenis_karyawan']=="Magang"){
+
+    elseif($jenis == "magang"){
 
 
-        $obj = new KaryawanMagang(
+
+        $magang[] = new KaryawanMagang(
 
             $data['id_karyawan'],
             $data['nama_karyawan'],
@@ -106,9 +118,6 @@ while($data = mysqli_fetch_assoc($query)){
         );
 
 
-        $magang[] = $obj;
-
-
     }
 
 
@@ -118,15 +127,27 @@ while($data = mysqli_fetch_assoc($query)){
 
 
 
-// fungsi menampilkan data
 
-function tampilkan($judul,$list)
+
+// ========================
+// FUNCTION TAMPIL
+// ========================
+
+
+function tampilkan($judul,$icon,$data,$jenis)
 {
 
 
-echo "
+?>
 
-<h2>$judul</h2>
+
+<div class="card">
+
+
+<h2>
+<?= $icon ?> <?= $judul ?>
+</h2>
+
 
 
 <table>
@@ -134,61 +155,84 @@ echo "
 
 <tr>
 
-<th>ID Karyawan</th>
+<th>ID</th>
 <th>Nama</th>
 <th>Departemen</th>
 <th>Hari Kerja</th>
-<th>Slip Gaji Bersih</th>
+<th>Gaji Bersih</th>
+<th>Spesifikasi</th>
 
 </tr>
 
-";
 
 
-
-
-foreach($list as $k){
-
-
-
-echo "
+<?php foreach($data as $k): ?>
 
 <tr>
 
 
 <td>
-".$k->getIdKaryawan()."
+
+<?= $k->getIdKaryawan(); ?>
+
 </td>
 
 
+
 <td>
-".$k->getNamaKaryawan()."
+
+<?= $k->getNamaKaryawan(); ?>
+
 </td>
 
 
+
+
 <td>
-".$k->getDepartemen()."
+
+<?= $k->getDepartemen(); ?>
+
 </td>
 
 
+
+
 <td>
-".$k->getHariKerja()." hari
+
+<?= $k->getHariKerja(); ?> Hari
+
 </td>
 
 
+
+
 <td>
-Rp ".number_format(
+
+Rp <?= number_format(
 $k->hitungGajiBersih()
-)."
+); ?>
+
 </td>
 
 
 
-</tr>
+
+<td>
 
 
-";
+<?php
 
+
+
+if($jenis=="kontrak"){
+
+
+echo "
+
+Durasi : ".$k->getDurasiKontrak()." Bulan
+<br>
+
+Agensi : ".$k->getAgensiPenyalur();
 
 
 }
@@ -196,7 +240,70 @@ $k->hitungGajiBersih()
 
 
 
-echo "</table>";
+
+elseif($jenis=="tetap"){
+
+
+echo "
+
+Tunjangan : Rp ".
+number_format(
+$k->getTunjanganKesehatan()
+)
+
+."<br>
+
+Saham : ".$k->getOpsiSaham();
+
+
+}
+
+
+
+
+
+elseif($jenis=="magang"){
+
+
+echo "
+
+Uang Saku : Rp ".
+number_format(
+$k->getUangSaku()
+)
+
+."<br>
+
+Sertifikat : ".$k->getSertifikat();
+
+
+}
+
+
+?>
+
+
+</td>
+
+
+
+</tr>
+
+
+
+<?php endforeach; ?>
+
+
+
+</table>
+
+
+
+</div>
+
+
+
+<?php
 
 }
 
@@ -216,7 +323,9 @@ echo "</table>";
 <head>
 
 
-<title>Slip Gaji Karyawan</title>
+<title>
+Slip Gaji Karyawan
+</title>
 
 
 
@@ -237,8 +346,7 @@ padding:30px;
 
 background:white;
 padding:30px;
-border-radius:15px;
-box-shadow:0 5px 15px #ccc;
+border-radius:20px;
 
 }
 
@@ -253,10 +361,12 @@ color:#34495e;
 
 
 
-h2{
+.card{
 
-margin-top:40px;
-color:#2c3e50;
+margin-top:35px;
+background:#fafafa;
+padding:20px;
+border-radius:15px;
 
 }
 
@@ -266,7 +376,6 @@ table{
 
 width:100%;
 border-collapse:collapse;
-margin-top:15px;
 
 }
 
@@ -284,9 +393,17 @@ padding:12px;
 
 td{
 
-border:1px solid #ccc;
+border:1px solid #ddd;
 padding:12px;
 text-align:center;
+
+}
+
+
+
+tr:hover{
+
+background:#e8f3ff;
 
 }
 
@@ -295,8 +412,8 @@ text-align:center;
 </style>
 
 
-
 </head>
+
 
 
 
@@ -309,32 +426,48 @@ text-align:center;
 
 
 <h1>
-📄 DAFTAR SLIP GAJI KARYAWAN
+📄 SISTEM INFORMASI SLIP GAJI KARYAWAN
 </h1>
+
+
+
+<p style="text-align:center">
+
+Data Dinamis Database MySQL <br>
+
+Inheritance & Polymorphism
+
+</p>
+
 
 
 
 <?php
 
 
-
 tampilkan(
-"👷 KARYAWAN KONTRAK",
-$kontrak
+"Karyawan Kontrak",
+"👷",
+$kontrak,
+"kontrak"
 );
 
 
 
 tampilkan(
-"🏢 KARYAWAN TETAP",
-$tetap
+"Karyawan Tetap",
+"🏢",
+$tetap,
+"tetap"
 );
 
 
 
 tampilkan(
-"🎓 KARYAWAN MAGANG",
-$magang
+"Karyawan Magang",
+"🎓",
+$magang,
+"magang"
 );
 
 
@@ -348,6 +481,5 @@ $magang
 
 
 </body>
-
 
 </html>
