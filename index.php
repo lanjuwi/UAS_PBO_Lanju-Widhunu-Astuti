@@ -21,7 +21,7 @@ if(!$conn){
 
 
 
-// ambil data
+// ambil data karyawan
 $query = mysqli_query(
     $conn,
     "SELECT * FROM tabel_karyawan"
@@ -35,15 +35,17 @@ $magang = [];
 
 
 
-// ubah data database jadi object
+// membuat object berdasarkan jenis karyawan
 
 while($data = mysqli_fetch_assoc($query)){
+
 
 
     if($data['jenis_karyawan']=="Kontrak"){
 
 
         $obj = new KaryawanKontrak(
+
             $data['id_karyawan'],
             $data['nama_karyawan'],
             $data['departemen'],
@@ -51,10 +53,12 @@ while($data = mysqli_fetch_assoc($query)){
             $data['gaji_dasar_per_hari'],
             $data['durasi_kontrak_bulan'],
             $data['agensi_penyalur']
+
         );
 
 
-        $kontrak[]=$obj;
+        $kontrak[] = $obj;
+
 
 
     }
@@ -65,6 +69,7 @@ while($data = mysqli_fetch_assoc($query)){
 
 
         $obj = new KaryawanTetap(
+
             $data['id_karyawan'],
             $data['nama_karyawan'],
             $data['departemen'],
@@ -72,14 +77,16 @@ while($data = mysqli_fetch_assoc($query)){
             $data['gaji_dasar_per_hari'],
             $data['tunjangan_kesehatan'],
             $data['opsi_saham_id']
+
         );
 
 
-        $tetap[]=$obj;
+        $tetap[] = $obj;
+
+
 
 
     }
-
 
 
 
@@ -87,6 +94,7 @@ while($data = mysqli_fetch_assoc($query)){
 
 
         $obj = new KaryawanMagang(
+
             $data['id_karyawan'],
             $data['nama_karyawan'],
             $data['departemen'],
@@ -94,20 +102,27 @@ while($data = mysqli_fetch_assoc($query)){
             $data['gaji_dasar_per_hari'],
             $data['uang_saku_bulanan'],
             $data['sertifikat_kampus_merdeka']
+
         );
 
 
-        $magang[]=$obj;
+        $magang[] = $obj;
+
 
     }
+
 
 }
 
 
 
 
+
+// fungsi menampilkan data
+
 function tampilkan($judul,$list)
 {
+
 
 echo "
 
@@ -116,44 +131,68 @@ echo "
 
 <table>
 
+
 <tr>
-<th>ID</th>
+
+<th>ID Karyawan</th>
 <th>Nama</th>
 <th>Departemen</th>
-<th>Hari Masuk</th>
-<th>Gaji Bersih</th>
+<th>Hari Kerja</th>
+<th>Slip Gaji Bersih</th>
+
 </tr>
 
 ";
+
 
 
 
 foreach($list as $k){
 
 
+
 echo "
 
 <tr>
 
-<td>$k->id_karyawan</td>
-
-<td>$k->nama_karyawan</td>
-
-<td>$k->departemen</td>
-
-<td>$k->hari_kerja_masuk hari</td>
 
 <td>
-Rp ".number_format($k->hitungGajiBersih())."
+".$k->getIdKaryawan()."
 </td>
+
+
+<td>
+".$k->getNamaKaryawan()."
+</td>
+
+
+<td>
+".$k->getDepartemen()."
+</td>
+
+
+<td>
+".$k->getHariKerja()." hari
+</td>
+
+
+<td>
+Rp ".number_format(
+$k->hitungGajiBersih()
+)."
+</td>
+
 
 
 </tr>
 
+
 ";
 
 
+
 }
+
 
 
 
@@ -167,6 +206,8 @@ echo "</table>";
 
 
 
+
+
 <!DOCTYPE html>
 
 <html>
@@ -174,64 +215,85 @@ echo "</table>";
 
 <head>
 
+
 <title>Slip Gaji Karyawan</title>
+
 
 
 <style>
 
 
 body{
+
 font-family:Arial;
 background:#eef2f7;
 padding:30px;
+
 }
+
 
 
 .container{
+
 background:white;
-padding:25px;
+padding:30px;
 border-radius:15px;
+box-shadow:0 5px 15px #ccc;
+
 }
+
 
 
 h1{
+
 text-align:center;
-color:#2c3e50;
+color:#34495e;
+
 }
+
 
 
 h2{
-margin-top:35px;
-color:#34495e;
+
+margin-top:40px;
+color:#2c3e50;
+
 }
+
 
 
 table{
 
 width:100%;
 border-collapse:collapse;
+margin-top:15px;
 
 }
 
-
-td,th{
-
-border:1px solid #ccc;
-padding:10px;
-text-align:center;
-
-}
 
 
 th{
 
 background:#34495e;
 color:white;
+padding:12px;
 
 }
 
 
+
+td{
+
+border:1px solid #ccc;
+padding:12px;
+text-align:center;
+
+}
+
+
+
 </style>
+
 
 
 </head>
@@ -241,7 +303,9 @@ color:white;
 <body>
 
 
+
 <div class="container">
+
 
 
 <h1>
@@ -251,6 +315,7 @@ color:white;
 
 
 <?php
+
 
 
 tampilkan(
@@ -277,7 +342,9 @@ $magang
 ?>
 
 
+
 </div>
+
 
 
 </body>
