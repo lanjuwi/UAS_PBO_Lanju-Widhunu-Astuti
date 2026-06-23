@@ -2,11 +2,13 @@
 
 abstract class Karyawan {
 
+
     protected $id_karyawan;
     protected $nama_karyawan;
     protected $departemen;
     protected $hari_kerja_masuk;
     protected $gaji_dasar_per_hari;
+
 
 
     public function __construct(
@@ -26,42 +28,42 @@ abstract class Karyawan {
     }
 
 
-    // abstract method tanpa isi
+
+    // wajib dibuat ulang oleh class anak
     abstract public function hitungGajiBersih();
+
 
     abstract public function gajiDasarPerHari();
 
 
 
-   public function hitungGajiBersih()
-{
-    return $this->hari_kerja_masuk * $this->gaji_dasar_per_hari;
-}
+    // getter
+
+    public function getIdKaryawan()
+    {
+        return $this->id_karyawan;
+    }
 
 
-public function getIdKaryawan()
-{
-    return $this->id_karyawan;
-}
+
+    public function getNamaKaryawan()
+    {
+        return $this->nama_karyawan;
+    }
 
 
-public function getNamaKaryawan()
-{
-    return $this->nama_karyawan;
-}
+
+    public function getDepartemen()
+    {
+        return $this->departemen;
+    }
 
 
-public function getDepartemen()
-{
-    return $this->departemen;
-}
 
-
-public function getHariKerja()
-{
-    return $this->hari_kerja_masuk;
-}
-
+    public function getHariKerja()
+    {
+        return $this->hari_kerja_masuk;
+    }
 
 
 }
