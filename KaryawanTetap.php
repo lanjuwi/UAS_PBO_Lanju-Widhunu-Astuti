@@ -41,10 +41,11 @@ class KaryawanTetap extends Karyawan
 
     public function hitungGajiBersih()
     {
-        return ($this->gaji_dasar_per_hari * 26)
-        + $this->tunjangan_kesehatan;
+    return 
+    ($this->hari_kerja_masuk * $this->gaji_dasar_per_hari)
+    + 
+    $this->tunjangan_kesehatan;
     }
-
 
 
 

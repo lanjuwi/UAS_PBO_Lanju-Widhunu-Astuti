@@ -37,9 +37,9 @@ class KaryawanKontrak extends Karyawan
 
     public function hitungGajiBersih()
     {
-        return $this->gaji_dasar_per_hari * 26;
-    }
+    return $this->hari_kerja_masuk * $this->gaji_dasar_per_hari;
 
+    }
 
 
     public function gajiDasarPerHari()
