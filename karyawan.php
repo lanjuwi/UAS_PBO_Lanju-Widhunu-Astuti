@@ -33,17 +33,35 @@ abstract class Karyawan {
 
 
 
-    // getter
-    public function getNama()
-    {
-        return $this->nama_karyawan;
-    }
+   public function hitungGajiBersih()
+{
+    return $this->hari_kerja_masuk * $this->gaji_dasar_per_hari;
+}
 
 
-    public function getDepartemen()
-    {
-        return $this->departemen;
-    }
+public function getIdKaryawan()
+{
+    return $this->id_karyawan;
+}
+
+
+public function getNamaKaryawan()
+{
+    return $this->nama_karyawan;
+}
+
+
+public function getDepartemen()
+{
+    return $this->departemen;
+}
+
+
+public function getHariKerja()
+{
+    return $this->hari_kerja_masuk;
+}
+
 
 
 }
