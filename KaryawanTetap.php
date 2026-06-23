@@ -21,7 +21,6 @@ class KaryawanTetap extends Karyawan
         $opsi_saham_id
     ){
 
-
         parent::__construct(
             $id_karyawan,
             $nama_karyawan,
@@ -41,17 +40,23 @@ class KaryawanTetap extends Karyawan
 
     public function hitungGajiBersih()
     {
-    return 
-    ($this->hari_kerja_masuk * $this->gaji_dasar_per_hari)
-    + 
-    $this->tunjangan_kesehatan;
+
+        return 
+        (
+            (int)$this->hari_kerja_masuk *
+            (int)$this->gaji_dasar_per_hari
+        )
+        +
+        (int)$this->tunjangan_kesehatan;
+
     }
+
 
 
 
     public function gajiDasarPerHari()
     {
-        return $this->gaji_dasar_per_hari;
+        return (int)$this->gaji_dasar_per_hari;
     }
 
 }

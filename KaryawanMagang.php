@@ -41,20 +41,26 @@ class KaryawanMagang extends Karyawan
 
 
 
-   public function hitungGajiBersih()
-   {
-    return 
-    ($this->hari_kerja_masuk * $this->gaji_dasar_per_hari)
-    * 0.80;
+    public function hitungGajiBersih()
+    {
+
+        return 
+        (
+            (int)$this->hari_kerja_masuk *
+            (int)$this->gaji_dasar_per_hari
+        ) * 0.80;
+
     }
+
 
 
 
 
     public function gajiDasarPerHari()
     {
-        return $this->gaji_dasar_per_hari;
+        return (int)$this->gaji_dasar_per_hari;
     }
+
 
 }
 

@@ -35,16 +35,21 @@ class KaryawanKontrak extends Karyawan
 
 
 
+    // overriding
     public function hitungGajiBersih()
     {
-    return $this->hari_kerja_masuk * $this->gaji_dasar_per_hari;
+
+        return 
+        (int)$this->hari_kerja_masuk *
+        (int)$this->gaji_dasar_per_hari;
 
     }
 
 
+
     public function gajiDasarPerHari()
     {
-        return $this->gaji_dasar_per_hari;
+        return (int)$this->gaji_dasar_per_hari;
     }
 
 }
