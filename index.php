@@ -11,7 +11,7 @@ $conn = mysqli_connect(
     "localhost",
     "root",
     "",
-    "DB_UAS_PBO_TRPL1B_LANJU_WIDHUNU_ASTUTI"
+    "db_uas_pbo_trpl1b_lanjuwidhunuastuti"
 );
 
 
